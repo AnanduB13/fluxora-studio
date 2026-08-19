@@ -35,49 +35,15 @@ html {
 }
 
 body {
-  position: relative;
   margin: 0;
   min-width: 320px;
   overflow-x: hidden;
-  background:
-    radial-gradient(circle at 12% 3%, rgba(255, 60, 22, 0.12), transparent 25%),
-    radial-gradient(circle at 88% 12%, rgba(255, 121, 31, 0.07), transparent 22%),
-    #070708;
+  background: #050507;
   color: var(--paper);
   font-family: "Manrope", sans-serif;
   font-size: 16px;
   line-height: 1.35;
   -webkit-font-smoothing: antialiased;
-}
-
-body::before,
-body::after {
-  position: fixed;
-  z-index: 0;
-  content: "";
-  pointer-events: none;
-}
-
-body::before {
-  top: -22vw;
-  left: -14vw;
-  width: 58vw;
-  height: 58vw;
-  border: 1px solid rgba(255, 87, 35, 0.09);
-  border-radius: 50%;
-  box-shadow:
-    0 0 130px rgba(255, 47, 18, 0.08),
-    inset 0 0 110px rgba(255, 72, 25, 0.035);
-}
-
-body::after {
-  inset: 0;
-  opacity: 0.12;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: linear-gradient(to bottom, black, transparent 58%);
 }
 
 body.modal-open {
@@ -105,22 +71,15 @@ textarea:focus-visible {
 
 .site-shell {
   position: relative;
-  z-index: 1;
-  width: min(1500px, calc(100% - 28px));
-  margin: 14px auto;
+  width: 100%;
+  margin: 0;
   overflow: hidden;
   background: var(--ink);
-  border: 1px solid rgba(255, 112, 59, 0.22);
-  border-radius: 22px;
-  box-shadow:
-    0 34px 110px rgba(0, 0, 0, 0.62),
-    0 0 70px rgba(255, 55, 20, 0.055),
-    inset 0 1px rgba(255, 255, 255, 0.035);
 }
 
 .page-pad {
-  padding-left: var(--page-pad);
-  padding-right: var(--page-pad);
+  padding-left: max(var(--page-pad), calc((100vw - 1440px) / 2));
+  padding-right: max(var(--page-pad), calc((100vw - 1440px) / 2));
 }
 
 .brand {
@@ -167,7 +126,7 @@ textarea:focus-visible {
 
 .hero {
   position: relative;
-  height: min(855px, calc((100vw - 56px) * 0.735));
+  height: min(880px, 73.5vw);
   min-height: 0;
   overflow: hidden;
   isolation: isolate;
@@ -1326,9 +1285,8 @@ textarea:focus-visible {
   :root { --page-pad: 22px; }
 
   .site-shell {
-    width: calc(100% - 16px);
-    margin: 8px auto;
-    border-radius: 15px 15px 0 0;
+    width: 100%;
+    margin: 0;
   }
 
   .nav { height: 64px; }
@@ -1409,8 +1367,6 @@ textarea:focus-visible {
   .site-shell {
     width: 100%;
     margin: 0;
-    border: 0;
-    border-radius: 0;
   }
 
   .hero { height: 690px; }
