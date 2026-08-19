@@ -126,7 +126,7 @@ textarea:focus-visible {
 
 .hero {
   position: relative;
-  height: min(880px, 73.5vw);
+  height: min(900px, 75vw);
   min-height: 0;
   overflow: hidden;
   isolation: isolate;
@@ -138,11 +138,11 @@ textarea:focus-visible {
   position: absolute;
   z-index: -2;
   inset: 0;
-  background-image: url("assets/hero-visor.png");
-  background-position: center;
+  background-image: url("assets/hero-anandu.png");
+  background-position: center top;
   background-size: cover;
-  transform: scale(1.012);
-  animation: hero-breathe 14s ease-in-out infinite alternate;
+  transform: none;
+  animation: none;
 }
 
 .hero::before {
@@ -151,9 +151,10 @@ textarea:focus-visible {
   inset: 0;
   content: "";
   background:
-    linear-gradient(90deg, rgba(4, 3, 5, 0.98) 0%, rgba(9, 3, 5, 0.84) 28%, rgba(8, 2, 4, 0.18) 59%, transparent 80%),
-    linear-gradient(0deg, #050507 0%, rgba(5, 5, 7, 0) 31%),
-    linear-gradient(180deg, rgba(2, 2, 3, 0.32), transparent 24%);
+    radial-gradient(circle at 16% 84%, rgba(255, 71, 12, 0.14), transparent 36%),
+    linear-gradient(90deg, rgba(4, 3, 5, 0.94) 0%, rgba(8, 3, 5, 0.78) 27%, rgba(8, 2, 4, 0.22) 53%, transparent 77%),
+    linear-gradient(0deg, rgba(5, 5, 7, 0.78) 0%, rgba(5, 5, 7, 0) 29%),
+    linear-gradient(180deg, rgba(2, 2, 3, 0.2), transparent 24%);
 }
 
 .hero::after {
@@ -168,20 +169,15 @@ textarea:focus-visible {
   box-shadow: 340px 0 rgba(255, 126, 71, 0.12);
 }
 
-@keyframes hero-breathe {
-  from { transform: scale(1.012) translate3d(0, 0, 0); }
-  to { transform: scale(1.032) translate3d(-0.35%, -0.25%, 0); }
-}
-
 .nav {
   position: relative;
   z-index: 10;
   display: flex;
-  height: 74px;
+  height: 60px;
   align-items: center;
   gap: 24px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: linear-gradient(90deg, rgba(7, 5, 6, 0.9), rgba(18, 6, 8, 0.67), rgba(7, 5, 6, 0.88));
+  background: linear-gradient(90deg, rgba(7, 5, 6, 0.82), rgba(18, 6, 8, 0.48), rgba(7, 5, 6, 0.76));
   backdrop-filter: blur(16px) saturate(1.2);
 }
 
@@ -1267,12 +1263,28 @@ textarea:focus-visible {
 @media (max-width: 900px) {
   :root { --page-pad: 36px; }
 
-  .nav { gap: 14px; }
-  .nav-links a { padding: 9px 10px; }
+  .hero .page-pad { padding-left: 6px; padding-right: 6px; }
+  .nav { height: 48px; gap: 10px; }
+  .brand { gap: 5px; font-size: 16px; }
+  .brand-mark { transform: rotate(45deg) scale(0.82); }
+  .nav-links a { padding: 7px 9px; font-size: 7px; }
+  .nav > .button { min-height: 25px; padding: 0 10px; font-size: 7px; }
   .hero { min-height: 0; }
-  .hero-copy { padding-top: 28px; }
-  .hero h1 { margin-top: 18px; }
-  .hero h1 { font-size: 56px; }
+  .hero-copy { padding-top: 42px; }
+  .hero h1 { max-width: 330px; margin-top: 16px; margin-bottom: 8px; font-size: 44px; line-height: 0.86; }
+  .hero-copy > p { max-width: 285px; margin-bottom: 12px; font-size: 10px; }
+  .hero-actions { gap: 14px; }
+  .hero-actions .button { min-height: 36px; padding: 0 14px; }
+  .client-stack > span { width: 22px; height: 22px; }
+  .client-stack small { font-size: 7px; }
+  .hero-stats { margin-top: 14px; }
+  .hero-stats > div { width: 95px; height: 60px; padding: 7px; }
+  .hero-stats strong { font-size: 21px; }
+  .hero-stats small { font-size: 6px; }
+  .partners { bottom: 34px; }
+  .partners small { margin-bottom: 13px; font-size: 8px; }
+  .partners div { width: 288px; }
+  .partners b { font-size: 9px; }
   .section { padding-top: 60px; padding-bottom: 60px; }
   .minds-grid { gap: 65px; margin-top: 42px; }
   .global-row { margin-top: 22px; }
@@ -1281,7 +1293,7 @@ textarea:focus-visible {
   .health-card { grid-column: 1 / -1; }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 600px) {
   :root { --page-pad: 22px; }
 
   .site-shell {
@@ -1289,7 +1301,7 @@ textarea:focus-visible {
     margin: 0;
   }
 
-  .nav { height: 64px; }
+  .nav { height: 58px; }
   .nav > .button { display: none; }
 
   .menu-button {
@@ -1300,7 +1312,7 @@ textarea:focus-visible {
 
   .nav-links {
     position: absolute;
-    top: 64px;
+    top: 58px;
     right: 18px;
     left: 18px;
     display: flex;
