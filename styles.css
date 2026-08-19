@@ -35,14 +35,49 @@ html {
 }
 
 body {
+  position: relative;
   margin: 0;
   min-width: 320px;
-  background: linear-gradient(115deg, #f00d03 0%, #ff2711 48%, #ff5c12 100%);
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 12% 3%, rgba(255, 60, 22, 0.12), transparent 25%),
+    radial-gradient(circle at 88% 12%, rgba(255, 121, 31, 0.07), transparent 22%),
+    #070708;
   color: var(--paper);
   font-family: "Manrope", sans-serif;
   font-size: 16px;
   line-height: 1.35;
   -webkit-font-smoothing: antialiased;
+}
+
+body::before,
+body::after {
+  position: fixed;
+  z-index: 0;
+  content: "";
+  pointer-events: none;
+}
+
+body::before {
+  top: -22vw;
+  left: -14vw;
+  width: 58vw;
+  height: 58vw;
+  border: 1px solid rgba(255, 87, 35, 0.09);
+  border-radius: 50%;
+  box-shadow:
+    0 0 130px rgba(255, 47, 18, 0.08),
+    inset 0 0 110px rgba(255, 72, 25, 0.035);
+}
+
+body::after {
+  inset: 0;
+  opacity: 0.12;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, black, transparent 58%);
 }
 
 body.modal-open {
@@ -69,13 +104,18 @@ textarea:focus-visible {
 }
 
 .site-shell {
-  width: min(1180px, calc(100% - 56px));
-  margin: 22px auto;
+  position: relative;
+  z-index: 1;
+  width: min(1500px, calc(100% - 28px));
+  margin: 14px auto;
   overflow: hidden;
   background: var(--ink);
-  border: 1px solid rgba(255, 133, 55, 0.8);
-  border-radius: 24px 24px 0 0;
-  box-shadow: 0 26px 70px rgba(82, 8, 0, 0.34);
+  border: 1px solid rgba(255, 112, 59, 0.22);
+  border-radius: 22px;
+  box-shadow:
+    0 34px 110px rgba(0, 0, 0, 0.62),
+    0 0 70px rgba(255, 55, 20, 0.055),
+    inset 0 1px rgba(255, 255, 255, 0.035);
 }
 
 .page-pad {
@@ -132,6 +172,7 @@ textarea:focus-visible {
   overflow: hidden;
   isolation: isolate;
   background: #120506;
+  box-shadow: inset 0 -80px 90px #050507;
 }
 
 .hero-art {
@@ -141,6 +182,8 @@ textarea:focus-visible {
   background-image: url("assets/hero-visor.png");
   background-position: center;
   background-size: cover;
+  transform: scale(1.012);
+  animation: hero-breathe 14s ease-in-out infinite alternate;
 }
 
 .hero::before {
@@ -162,8 +205,13 @@ textarea:focus-visible {
   width: 1px;
   height: 60%;
   content: "";
-  background: linear-gradient(transparent, rgba(255, 117, 64, 0.5), transparent);
-  box-shadow: 285px 0 rgba(255, 126, 71, 0.15);
+  background: linear-gradient(transparent, rgba(255, 117, 64, 0.42), transparent);
+  box-shadow: 340px 0 rgba(255, 126, 71, 0.12);
+}
+
+@keyframes hero-breathe {
+  from { transform: scale(1.012) translate3d(0, 0, 0); }
+  to { transform: scale(1.032) translate3d(-0.35%, -0.25%, 0); }
 }
 
 .nav {
@@ -174,8 +222,8 @@ textarea:focus-visible {
   align-items: center;
   gap: 24px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(8, 4, 5, 0.34);
-  backdrop-filter: blur(8px);
+  background: linear-gradient(90deg, rgba(7, 5, 6, 0.9), rgba(18, 6, 8, 0.67), rgba(7, 5, 6, 0.88));
+  backdrop-filter: blur(16px) saturate(1.2);
 }
 
 .nav-links {
@@ -248,6 +296,10 @@ textarea:focus-visible {
   background: linear-gradient(100deg, #ff2012, #ff6b13);
   box-shadow: 0 9px 24px rgba(255, 49, 18, 0.24), inset 0 1px rgba(255, 255, 255, 0.24);
   color: #fff;
+}
+
+.button-orange:hover {
+  box-shadow: 0 13px 34px rgba(255, 52, 18, 0.36), inset 0 1px rgba(255, 255, 255, 0.3);
 }
 
 .button b {
@@ -402,8 +454,24 @@ textarea:focus-visible {
 }
 
 .section {
+  position: relative;
   padding-top: clamp(78px, 9vw, 125px);
   padding-bottom: clamp(78px, 9vw, 125px);
+}
+
+.minds,
+.process,
+.reviews {
+  background:
+    radial-gradient(circle at 92% 18%, rgba(255, 55, 21, 0.035), transparent 26%),
+    #050507;
+}
+
+.purpose,
+.support {
+  background:
+    radial-gradient(circle at 8% 52%, rgba(255, 80, 25, 0.05), transparent 24%),
+    linear-gradient(180deg, #050507, #080709 45%, #050507);
 }
 
 .section-head,
@@ -627,6 +695,17 @@ textarea:focus-visible {
   border-radius: 8px;
   background: #141416;
   transition: border-color 180ms ease, transform 180ms ease;
+}
+
+.service-grid article::before {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 15%;
+  width: 70%;
+  height: 1px;
+  content: "";
+  background: linear-gradient(90deg, transparent, rgba(255, 123, 72, 0.22), transparent);
 }
 
 .service-grid article:hover {
@@ -1013,6 +1092,9 @@ textarea:focus-visible {
   height: 590px;
   place-items: center;
   overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 58, 20, 0.055), transparent 34%),
+    #050507;
 }
 
 .light-arc {
@@ -1077,6 +1159,21 @@ textarea:focus-visible {
   gap: 50px;
   padding-top: 72px;
   padding-bottom: 32px;
+  background: linear-gradient(180deg, #050507, #080709);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #09090a;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid #09090a;
+  border-radius: 999px;
+  background: linear-gradient(#ff3a18, #8f2011);
 }
 
 .footer-about p {
