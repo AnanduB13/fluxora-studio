@@ -177,10 +177,10 @@ textarea:focus-visible {
 
 .hero-subject-plane {
   z-index: 2;
-  --subject-enter-y: 17%;
-  --subject-scale: 1.21;
+  --subject-enter-y: 19%;
+  --subject-scale: 1.29;
   --subject-x: 2.2%;
-  --subject-y: 11.5%;
+  --subject-y: 14%;
   transform: translate3d(0, var(--hero-subject-y, 0px), 0);
 }
 
@@ -2546,10 +2546,10 @@ textarea:focus-visible {
   }
 
   .hero-subject-plane {
-    --subject-scale: 1.16;
+    --subject-scale: 1.22;
     --subject-x: 1%;
-    --subject-y: 11%;
-    --subject-enter-y: 16%;
+    --subject-y: 13%;
+    --subject-enter-y: 18%;
   }
 
   .hero-subject-plane img {
@@ -2589,7 +2589,7 @@ textarea:focus-visible {
   .hero { height: 690px; }
   .hero-art { opacity: 0.82; }
   .hero-bg-plane img { object-position: 62% center; }
-  .hero-subject-plane { --subject-scale: 1.12; --subject-x: 1%; --subject-y: 12%; --subject-enter-y: 17%; }
+  .hero-subject-plane { --subject-scale: 1.18; --subject-x: 1%; --subject-y: 14%; --subject-enter-y: 19%; }
   .hero-subject-plane img { object-position: 62% top; }
   .hero h1 { font-size: clamp(38px, 11vw, 48px); }
   .hero-copy { padding-top: 55px; }
