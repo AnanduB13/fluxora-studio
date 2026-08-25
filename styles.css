@@ -1508,97 +1508,284 @@ textarea:focus-visible {
 
 .support-grid {
   display: grid;
-  grid-template-columns: 0.66fr 1fr 1.35fr;
-  gap: 10px;
-  margin-top: 46px;
+  grid-template-columns: minmax(0, 1.42fr) minmax(340px, .58fr);
+  gap: 14px;
+  margin-top: clamp(44px, 6vw, 78px);
 }
 
 .support-grid article {
-  height: 270px;
-  padding: 15px;
-  border: 1px solid #2c292d;
-  border-radius: 9px;
-  background: #151517;
+  position: relative;
+  min-height: 620px;
+  overflow: hidden;
+  border: 1px solid #2a282c;
+  border-radius: 19px;
+  background: linear-gradient(145deg, #171719, #101012);
 }
 
-.portrait-small {
-  height: 154px;
-  margin: -15px -15px 13px;
-  background-image: url("assets/team-portrait.png");
-  background-position: center 27%;
+.support-intro {
+  width: min(100%, 440px);
+  padding-bottom: 4px;
 }
 
-.profile-card p,
-.brand-card p {
-  color: #999;
-  font-size: 12px;
+.support-intro > p {
+  margin: 0;
+  color: #9b989e;
+  font-size: 16px;
+  line-height: 1.65;
+  text-align: left;
 }
 
-.brand-icons {
+.support-intro > span {
   display: flex;
-  height: 96px;
   align-items: center;
-  justify-content: space-around;
+  gap: 8px;
+  margin-top: 22px;
+  color: #bbb8bc;
+  font-size: 11px;
 }
 
-.brand-icons span {
-  display: grid;
-  width: 39px;
-  height: 39px;
-  place-items: center;
+.support-intro > span i,
+.support-person > span i,
+.health-top > span i {
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: #222225;
-  box-shadow: inset 0 0 0 1px #2d2d31;
+  background: #ff4a18;
+  box-shadow: 0 0 12px #ff4a18;
 }
 
 .health-card {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  background:
+    radial-gradient(circle at 92% 10%, rgba(255, 66, 18, .11), transparent 24%),
+    linear-gradient(145deg, #171719, #101012) !important;
 }
 
-.alert {
-  height: 38px;
-  margin: -15px -15px 15px;
-  padding: 9px;
-  background: linear-gradient(90deg, #fc3016, #ff6810);
+.health-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 23px;
+  border-bottom: 1px solid #2b292d;
+}
+
+.health-top > span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #d8d5d8;
+  font-size: 12px;
+}
+
+.health-top > small {
+  color: #706d72;
+  font-size: 10px;
+}
+
+.health-copy {
+  padding: 32px 0 26px;
+}
+
+.health-copy > p,
+.profile-copy > p {
+  margin: 0 0 10px;
+  color: #ff5d35;
   font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
 }
 
 .health-card h3 {
-  font-size: 16px;
+  margin: 0 0 14px;
+  font-size: clamp(27px, 2.6vw, 38px);
+  font-weight: 500;
+  letter-spacing: -.05em;
+  line-height: 1.08;
 }
 
-.health-card ul {
-  padding-left: 16px;
-  color: #bbb;
-  font-size: 11px;
-  line-height: 2;
+.health-copy > span,
+.profile-copy > span {
+  display: block;
+  max-width: 610px;
+  color: #969399;
+  font-size: 13px;
+  line-height: 1.65;
 }
 
-.health-card li::marker {
-  color: #ff3d1a;
+.care-list {
+  border-top: 1px solid #2b292d;
 }
 
-.gauge {
-  position: absolute;
-  right: 20px;
-  bottom: 20px;
-  width: 90px;
-  height: 49px;
-  padding-top: 10px;
-  border: 7px solid #342926;
-  border-bottom: 0;
-  border-left-color: #fd411c;
-  border-radius: 90px 90px 0 0;
-  text-align: center;
+.care-list > div {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 15px;
+  padding: 16px 0;
+  border-bottom: 1px solid #2b292d;
 }
 
-.gauge strong,
-.gauge small {
+.care-icon {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid #3a3333;
+  border-radius: 10px;
+  background: #1e191a;
+  color: #ff7651;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .06em;
+}
+
+.care-list strong,
+.care-list small {
   display: block;
 }
 
-.gauge strong { font-size: 20px; }
-.gauge small { color: #aaa; font-size: 9px; }
+.care-list strong {
+  color: #d9d6d9;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.care-list small {
+  margin-top: 4px;
+  color: #77747a;
+  font-size: 10px;
+}
+
+.care-list b {
+  padding: 6px 9px;
+  border: 1px solid #343135;
+  border-radius: 999px;
+  color: #8e8b90;
+  font-size: 9px;
+  font-weight: 500;
+}
+
+.support-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: auto;
+  padding-top: 26px;
+}
+
+.support-metrics > div {
+  padding-left: 20px;
+  border-left: 1px solid #302d31;
+}
+
+.support-metrics > div:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.support-metrics strong,
+.support-metrics span {
+  display: block;
+}
+
+.support-metrics strong {
+  font-size: clamp(25px, 2.5vw, 36px);
+  font-weight: 400;
+  letter-spacing: -.055em;
+}
+
+.support-metrics span {
+  margin-top: 5px;
+  color: #747176;
+  font-size: 9px;
+}
+
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  padding: 0 27px 27px;
+}
+
+.support-person {
+  position: relative;
+  height: 225px;
+  margin: 0 -27px 27px;
+  overflow: hidden;
+  border-bottom: 1px solid #2a282c;
+}
+
+.portrait-small {
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(180deg, rgba(4, 4, 6, .08), rgba(4, 4, 6, .42)),
+    url("assets/team-portrait.png");
+  background-position: center 28%;
+  background-size: cover;
+}
+
+.support-person > span {
+  position: absolute;
+  right: 17px;
+  bottom: 17px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 10px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 999px;
+  background: rgba(7,7,9,.58);
+  font-size: 9px;
+  backdrop-filter: blur(10px);
+}
+
+.profile-copy h3 {
+  margin: 0 0 13px;
+  font-size: clamp(23px, 2vw, 29px);
+  font-weight: 500;
+  letter-spacing: -.045em;
+  line-height: 1.12;
+}
+
+.profile-card ul {
+  display: grid;
+  gap: 9px;
+  margin: 23px 0 25px;
+  padding: 0;
+  list-style: none;
+}
+
+.profile-card li {
+  color: #aaa7ac;
+  font-size: 11px;
+}
+
+.profile-card li::before {
+  margin-right: 9px;
+  color: #ff5830;
+  content: "✓";
+}
+
+.profile-card .button {
+  width: 100%;
+  min-height: 50px;
+  margin-top: auto;
+}
+
+.profile-card > a {
+  margin-top: 16px;
+  color: #6f6c72;
+  font-size: 9px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.profile-card > a strong {
+  color: #a4a1a6;
+  font-weight: 500;
+}
 
 .reviews {
   padding-top: 75px;
@@ -2275,6 +2462,96 @@ textarea:focus-visible {
   .step-output strong {
     max-width: none;
     text-align: left;
+  }
+}
+
+@media (max-width: 900px) {
+  .support-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .support-intro {
+    width: min(100%, 620px);
+  }
+
+  .support-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .health-card {
+    min-height: 620px;
+    grid-column: auto;
+  }
+
+  .profile-card {
+    min-height: 620px;
+  }
+}
+
+@media (max-width: 600px) {
+  .support-grid {
+    margin-top: 38px;
+  }
+
+  .support-grid article {
+    border-radius: 15px;
+  }
+
+  .health-card {
+    min-height: 720px;
+    padding: 23px;
+  }
+
+  .health-top {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .health-copy {
+    padding: 27px 0 23px;
+  }
+
+  .health-copy > span,
+  .profile-copy > span {
+    font-size: 12px;
+  }
+
+  .care-list > div {
+    grid-template-columns: 38px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .care-list b {
+    display: none;
+  }
+
+  .care-list small {
+    line-height: 1.45;
+  }
+
+  .support-metrics > div {
+    padding-left: 10px;
+  }
+
+  .support-metrics strong {
+    font-size: 25px;
+  }
+
+  .support-metrics span {
+    max-width: 90px;
+  }
+
+  .profile-card {
+    min-height: 630px;
+    padding-right: 23px;
+    padding-left: 23px;
+  }
+
+  .support-person {
+    margin-right: -23px;
+    margin-left: -23px;
   }
 }
 
