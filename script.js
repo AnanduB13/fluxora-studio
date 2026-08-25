@@ -1,6 +1,32 @@
 const menuButton = document.querySelector('.menu-button');
 const navLinks = document.querySelector('.nav-links');
 
+const hero = document.querySelector('.hero');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+let heroFrame;
+
+function updateHeroParallax() {
+  heroFrame = undefined;
+  if (!hero || reduceMotion.matches) return;
+
+  const rect = hero.getBoundingClientRect();
+  const progress = Math.max(0, Math.min(1, -rect.top / Math.max(rect.height, 1)));
+  hero.style.setProperty('--hero-progress', progress.toFixed(3));
+  hero.style.setProperty('--hero-bg-y', `${(progress * 24).toFixed(1)}px`);
+  hero.style.setProperty('--hero-glow-y', `${(progress * 38).toFixed(1)}px`);
+  hero.style.setProperty('--hero-subject-y', `${(progress * 62).toFixed(1)}px`);
+}
+
+function requestHeroParallax() {
+  if (heroFrame === undefined) heroFrame = window.requestAnimationFrame(updateHeroParallax);
+}
+
+if (hero && !reduceMotion.matches) {
+  updateHeroParallax();
+  window.addEventListener('scroll', requestHeroParallax, { passive: true });
+  window.addEventListener('resize', requestHeroParallax);
+}
+
 menuButton?.addEventListener('click', () => {
   const isOpen = navLinks.classList.toggle('open');
   menuButton.setAttribute('aria-expanded', String(isOpen));

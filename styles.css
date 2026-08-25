@@ -138,12 +138,68 @@ textarea:focus-visible {
   position: absolute;
   z-index: -2;
   inset: 0;
-  background-image: url("assets/hero-anandu.png");
-  background-position: center top;
-  background-size: cover;
-  transform: scale(1.19) translate3d(-1.8%, 13%, 0);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-bg-plane,
+.hero-subject-plane,
+.hero-ambient-light {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.hero-bg-plane {
+  inset: -4%;
+  transform: translate3d(0, var(--hero-bg-y, 0px), 0);
+}
+
+.hero-bg-plane img,
+.hero-subject-plane img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+}
+
+.hero-bg-plane img {
+  transform: scale(1.045);
+  animation: hero-backdrop-in 1400ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.hero-ambient-light {
+  z-index: 1;
+  background: radial-gradient(circle at 55% 58%, rgba(255, 183, 40, 0.18), transparent 23%);
+  opacity: calc(0.86 - var(--hero-progress, 0) * 0.24);
+  transform: translate3d(0, var(--hero-glow-y, 0px), 0) scale(1.04);
+}
+
+.hero-subject-plane {
+  z-index: 2;
+  --subject-enter-y: 13%;
+  --subject-scale: 1.15;
+  --subject-x: 2.2%;
+  --subject-y: 7.5%;
+  transform: translate3d(0, var(--hero-subject-y, 0px), 0);
+}
+
+.hero-subject-plane img {
+  object-position: center top;
+  transform: scale(var(--subject-scale)) translate3d(var(--subject-x), var(--subject-y), 0);
   transform-origin: 58% 44%;
-  animation: none;
+  filter: drop-shadow(0 24px 36px rgba(9, 0, 0, 0.35));
+  animation: hero-subject-in 1150ms 100ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+@keyframes hero-backdrop-in {
+  from { opacity: 0; transform: scale(1.12); }
+  to { opacity: 1; transform: scale(1.045); }
+}
+
+@keyframes hero-subject-in {
+  from { opacity: 0; transform: scale(calc(var(--subject-scale) + 0.07)) translate3d(var(--subject-x), var(--subject-enter-y), 0); }
+  to { opacity: 1; transform: scale(var(--subject-scale)) translate3d(var(--subject-x), var(--subject-y), 0); }
 }
 
 .hero::before {
@@ -2482,9 +2538,22 @@ textarea:focus-visible {
   }
 
   .hero-art {
-    background-position: 58% center;
-    transform: scale(1.12) translate3d(-0.8%, 7%, 0);
-    transform-origin: 60% 44%;
+    opacity: 1;
+  }
+
+  .hero-bg-plane img {
+    object-position: 58% center;
+  }
+
+  .hero-subject-plane {
+    --subject-scale: 1.12;
+    --subject-x: 1%;
+    --subject-y: 8%;
+    --subject-enter-y: 13%;
+  }
+
+  .hero-subject-plane img {
+    object-position: 58% top;
   }
 
   .hero::before {
@@ -2518,7 +2587,10 @@ textarea:focus-visible {
   }
 
   .hero { height: 690px; }
-  .hero-art { background-position: 62% center; opacity: 0.75; transform: scale(1.07) translateY(4%); }
+  .hero-art { opacity: 0.82; }
+  .hero-bg-plane img { object-position: 62% center; }
+  .hero-subject-plane { --subject-scale: 1.08; --subject-x: 1%; --subject-y: 9%; --subject-enter-y: 13%; }
+  .hero-subject-plane img { object-position: 62% top; }
   .hero h1 { font-size: clamp(38px, 11vw, 48px); }
   .hero-copy { padding-top: 55px; }
   .hero-actions { align-items: flex-start; flex-direction: column; }
@@ -3033,4 +3105,9 @@ textarea:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: 0.01ms !important; }
+  .hero-bg-plane,
+  .hero-subject-plane,
+  .hero-ambient-light { transform: none; will-change: auto; }
+  .hero-bg-plane img,
+  .hero-subject-plane img { animation: none; }
 }
