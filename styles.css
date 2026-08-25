@@ -141,7 +141,7 @@ textarea:focus-visible {
   background-image: url("assets/hero-anandu.png");
   background-position: center top;
   background-size: cover;
-  transform: scale(1.14) translate3d(-1.4%, 8%, 0);
+  transform: scale(1.19) translate3d(-1.8%, 13%, 0);
   transform-origin: 58% 44%;
   animation: none;
 }
@@ -2483,7 +2483,7 @@ textarea:focus-visible {
 
   .hero-art {
     background-position: 58% center;
-    transform: scale(1.08) translate3d(-0.5%, 4%, 0);
+    transform: scale(1.12) translate3d(-0.8%, 7%, 0);
     transform-origin: 60% 44%;
   }
 
@@ -2518,7 +2518,7 @@ textarea:focus-visible {
   }
 
   .hero { height: 690px; }
-  .hero-art { background-position: 62% center; opacity: 0.75; transform: scale(1.05) translateY(2.5%); }
+  .hero-art { background-position: 62% center; opacity: 0.75; transform: scale(1.07) translateY(4%); }
   .hero h1 { font-size: clamp(38px, 11vw, 48px); }
   .hero-copy { padding-top: 55px; }
   .hero-actions { align-items: flex-start; flex-direction: column; }
