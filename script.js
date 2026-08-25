@@ -79,6 +79,7 @@ const reviewPhoto = document.querySelector('.review-photo');
 const reviewCopy = document.querySelector('[data-review-copy]');
 const reviewName = document.querySelector('[data-review-name]');
 const reviewRole = document.querySelector('[data-review-role]');
+const reviewIndex = document.querySelector('[data-review-index]');
 const reviewDots = [...document.querySelectorAll('.testimonial-dots button')];
 let activeTestimonial = 0;
 let testimonialTimer;
@@ -93,6 +94,7 @@ function showTestimonial(index) {
     if (reviewCopy) reviewCopy.textContent = testimonial.copy;
     if (reviewName) reviewName.textContent = testimonial.name;
     if (reviewRole) reviewRole.textContent = testimonial.role;
+    if (reviewIndex) reviewIndex.textContent = String(activeTestimonial + 1).padStart(2, '0');
     reviewDots.forEach((dot, dotIndex) => dot.classList.toggle('active', dotIndex === activeTestimonial));
     testimonialCard?.classList.remove('changing');
   }, 160);
@@ -119,6 +121,11 @@ reviewDots.forEach((dot, index) => {
     startTestimonialTimer();
   });
 });
+
+testimonialCard?.addEventListener('pointerenter', () => window.clearInterval(testimonialTimer));
+testimonialCard?.addEventListener('pointerleave', startTestimonialTimer);
+testimonialCard?.addEventListener('focusin', () => window.clearInterval(testimonialTimer));
+testimonialCard?.addEventListener('focusout', startTestimonialTimer);
 
 if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   startTestimonialTimer();
