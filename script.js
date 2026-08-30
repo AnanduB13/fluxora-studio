@@ -1,5 +1,69 @@
+const firstVisitLoader = document.querySelector('.site-loader');
+
+function revealPage() {
+  // A short task delay lets the initial motion styles paint, including in background tabs.
+  window.setTimeout(() => {
+    document.documentElement.classList.add('is-page-ready');
+  }, 40);
+}
+
+if (document.documentElement.classList.contains('is-first-load') && firstVisitLoader) {
+  const loaderStartedAt = performance.now();
+  const minimumLoaderTime = 400;
+  const maximumLoaderTime = 3000;
+
+  const waitForImage = (image) => {
+    if (image.complete) return Promise.resolve();
+
+    return new Promise((resolve) => {
+      image.addEventListener('load', resolve, { once: true });
+      image.addEventListener('error', resolve, { once: true });
+    });
+  };
+
+  const heroImages = [...document.querySelectorAll('.hero-art img, .hero-subject-plane img')];
+  const imageReadiness = Promise.all(heroImages.map(waitForImage));
+  const fontReadiness = document.fonts
+    ? Promise.all([
+        document.fonts.load('600 72px Manrope'),
+        document.fonts.load('400 72px "Instrument Serif"'),
+      ])
+    : Promise.resolve();
+  const criticalAssets = Promise.allSettled([imageReadiness, fontReadiness]);
+  const timeout = new Promise((resolve) => window.setTimeout(resolve, maximumLoaderTime));
+
+  Promise.race([criticalAssets, timeout]).then(() => {
+    const remainingTime = Math.max(0, minimumLoaderTime - (performance.now() - loaderStartedAt));
+
+    window.setTimeout(() => {
+      firstVisitLoader.classList.add('is-leaving');
+      revealPage();
+
+      window.setTimeout(() => {
+        document.documentElement.classList.remove('is-first-load');
+        firstVisitLoader.remove();
+      }, 320);
+    }, remainingTime);
+  });
+} else {
+  firstVisitLoader?.remove();
+  revealPage();
+}
+
 const menuButton = document.querySelector('.menu-button');
 const navLinks = document.querySelector('.nav-links');
+
+menuButton?.addEventListener('click', () => {
+  const isOpen = navLinks?.classList.toggle('open') ?? false;
+  menuButton.setAttribute('aria-expanded', String(isOpen));
+  menuButton.textContent = isOpen ? 'Close' : 'Menu';
+});
+
+navLinks?.addEventListener('click', () => {
+  navLinks.classList.remove('open');
+  menuButton?.setAttribute('aria-expanded', 'false');
+  if (menuButton) menuButton.textContent = 'Menu';
+});
 
 const hero = document.querySelector('.hero');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -27,134 +91,54 @@ if (hero && !reduceMotion.matches) {
   window.addEventListener('resize', requestHeroParallax);
 }
 
-menuButton?.addEventListener('click', () => {
-  const isOpen = navLinks.classList.toggle('open');
-  menuButton.setAttribute('aria-expanded', String(isOpen));
-  menuButton.textContent = isOpen ? 'Close' : 'Menu';
-});
-
-navLinks?.addEventListener('click', () => {
-  navLinks.classList.remove('open');
-  menuButton?.setAttribute('aria-expanded', 'false');
-  if (menuButton) menuButton.textContent = 'Menu';
-});
-
-const contactDialog = document.querySelector('.contact-dialog');
-const contactForm = document.querySelector('.contact-form');
-const formStatus = document.querySelector('.form-status');
-
-document.querySelectorAll('[data-open-contact]').forEach((trigger) => {
-  trigger.addEventListener('click', (event) => {
-    event.preventDefault();
-    contactDialog?.showModal();
-    document.body.classList.add('modal-open');
-    contactDialog?.querySelector('input')?.focus();
-  });
-});
-
-document.querySelector('.dialog-close')?.addEventListener('click', () => {
-  contactDialog?.close();
-});
-
-contactDialog?.addEventListener('click', (event) => {
-  if (event.target === contactDialog) contactDialog.close();
-});
-
-contactDialog?.addEventListener('close', () => {
-  document.body.classList.remove('modal-open');
-});
-
-contactForm?.addEventListener('submit', (event) => {
-  event.preventDefault();
-  const data = new FormData(contactForm);
-  const name = String(data.get('name') || 'there').trim();
-  formStatus.textContent = `Thanks, ${name}. Your project brief is ready to send.`;
-  contactForm.querySelector('button[type="submit"]').textContent = 'Inquiry received ✓';
-
-  window.setTimeout(() => {
-    contactDialog?.close();
-    contactForm.reset();
-    formStatus.textContent = '';
-    contactForm.querySelector('button[type="submit"]').innerHTML = 'Send inquiry <b>→</b>';
-  }, 1400);
-});
-
-const testimonials = [
-  {
-    copy: 'The process felt clear and collaborative from start to finish. Fluxora understood our goals and turned them into an experience our customers genuinely enjoy.',
-    name: 'Amelia N.',
-    role: 'Founder, Northline',
-    image: 'assets/client-amelia.png',
-  },
-  {
-    copy: 'Fluxora brought focus to a complicated product. Every decision had a reason, and our team felt involved throughout the entire process.',
-    name: 'Marcus T.',
-    role: 'Product Director, Lattice',
-    image: 'assets/studio-team.png',
-  },
-  {
-    copy: 'The new experience feels unmistakably like us—only clearer, faster, and more useful. That balance is difficult to find in a creative partner.',
-    name: 'Sofia R.',
-    role: 'Co-founder, Aster Labs',
-    image: 'assets/team-portrait.png',
-  },
+const revealGroups = [
+  '.section-head > *',
+  '.minds-grid > *',
+  '.founder-principles > *',
+  '.broker-copy',
+  '.market-panel',
+  '.purpose-head > *',
+  '.arsenal-card',
+  '.platforms-head > *',
+  '.platform-card',
+  '.giveaway-copy > *',
+  '.entry-counter',
+  '.social-head > *',
+  '.social-card',
+  '.cta-copy > *',
+  '.footer-about > *',
+  '.footer-links > *',
+  '.copyright',
 ];
 
-const testimonialCard = document.querySelector('.testimonial-wrap article');
-const reviewPhoto = document.querySelector('.review-photo');
-const reviewCopy = document.querySelector('[data-review-copy]');
-const reviewName = document.querySelector('[data-review-name]');
-const reviewRole = document.querySelector('[data-review-role]');
-const reviewIndex = document.querySelector('[data-review-index]');
-const reviewDots = [...document.querySelectorAll('.testimonial-dots button')];
-let activeTestimonial = 0;
-let testimonialTimer;
+const revealElements = [...document.querySelectorAll(revealGroups.join(','))];
 
-function showTestimonial(index) {
-  activeTestimonial = (index + testimonials.length) % testimonials.length;
-  const testimonial = testimonials[activeTestimonial];
-  testimonialCard?.classList.add('changing');
+revealElements.forEach((element, index) => {
+  const parent = element.parentElement;
+  const siblingIndex = parent ? [...parent.children].indexOf(element) : 0;
+  element.classList.add('scroll-reveal');
+  element.style.setProperty('--reveal-delay', `${Math.min(siblingIndex, 5) * 70}ms`);
 
-  window.setTimeout(() => {
-    if (reviewPhoto) reviewPhoto.style.backgroundImage = `url("${testimonial.image}")`;
-    if (reviewCopy) reviewCopy.textContent = testimonial.copy;
-    if (reviewName) reviewName.textContent = testimonial.name;
-    if (reviewRole) reviewRole.textContent = testimonial.role;
-    if (reviewIndex) reviewIndex.textContent = String(activeTestimonial + 1).padStart(2, '0');
-    reviewDots.forEach((dot, dotIndex) => dot.classList.toggle('active', dotIndex === activeTestimonial));
-    testimonialCard?.classList.remove('changing');
-  }, 160);
-}
-
-function startTestimonialTimer() {
-  window.clearInterval(testimonialTimer);
-  testimonialTimer = window.setInterval(() => showTestimonial(activeTestimonial + 1), 6500);
-}
-
-document.querySelector('.testimonial-prev')?.addEventListener('click', () => {
-  showTestimonial(activeTestimonial - 1);
-  startTestimonialTimer();
+  if (index % 3 === 1) element.classList.add('reveal-soft');
 });
 
-document.querySelector('.testimonial-next')?.addEventListener('click', () => {
-  showTestimonial(activeTestimonial + 1);
-  startTestimonialTimer();
-});
+document.documentElement.classList.add('motion-ready');
 
-reviewDots.forEach((dot, index) => {
-  dot.addEventListener('click', () => {
-    showTestimonial(index);
-    startTestimonialTimer();
-  });
-});
+if (reduceMotion.matches || !('IntersectionObserver' in window)) {
+  revealElements.forEach((element) => element.classList.add('is-visible'));
+} else {
+  const revealObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    },
+    { rootMargin: '0px 0px -8%', threshold: 0.12 },
+  );
 
-testimonialCard?.addEventListener('pointerenter', () => window.clearInterval(testimonialTimer));
-testimonialCard?.addEventListener('pointerleave', startTestimonialTimer);
-testimonialCard?.addEventListener('focusin', () => window.clearInterval(testimonialTimer));
-testimonialCard?.addEventListener('focusout', startTestimonialTimer);
-
-if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  startTestimonialTimer();
+  revealElements.forEach((element) => revealObserver.observe(element));
 }
 
 const sections = [...document.querySelectorAll('main section[id]')];
@@ -177,3 +161,53 @@ if ('IntersectionObserver' in window) {
 
   sections.forEach((section) => sectionObserver.observe(section));
 }
+
+const serviceModal = document.querySelector('.service-modal');
+const serviceModalClose = serviceModal?.querySelector('.service-modal-close');
+const serviceModalImage = serviceModal?.querySelector('.service-modal-visual img');
+const serviceModalLabel = serviceModal?.querySelector('.service-modal-label');
+const serviceModalTitle = serviceModal?.querySelector('#service-modal-title');
+const serviceModalList = serviceModal?.querySelector('.service-modal-list');
+const serviceModalCta = serviceModal?.querySelector('.service-modal-cta');
+const serviceModalCtaLabel = serviceModalCta?.querySelector('span');
+let serviceModalTrigger;
+
+document.querySelectorAll('.service-details-button').forEach((button) => {
+  button.addEventListener('click', () => {
+    const card = button.closest('.arsenal-card');
+    const image = card?.querySelector('.service-visual img');
+    const label = card?.querySelector('.card-label');
+    const title = card?.querySelector('h3');
+    const list = card?.querySelector('ul');
+    const primaryAction = card?.querySelector('.service-primary');
+
+    if (!serviceModal || !image || !label || !title || !list || !primaryAction) return;
+
+    if (serviceModalImage) {
+      serviceModalImage.src = image.src;
+      serviceModalImage.alt = image.alt;
+    }
+    if (serviceModalLabel) serviceModalLabel.textContent = label.textContent;
+    if (serviceModalTitle) serviceModalTitle.textContent = title.textContent;
+    if (serviceModalList) serviceModalList.innerHTML = list.innerHTML;
+    if (serviceModalCta) serviceModalCta.href = primaryAction.href;
+    if (serviceModalCtaLabel) serviceModalCtaLabel.textContent = primaryAction.textContent.trim();
+
+    serviceModalTrigger = button;
+    document.body.classList.add('modal-open');
+    serviceModal.showModal();
+  });
+});
+
+serviceModalClose?.addEventListener('click', () => serviceModal?.close());
+
+serviceModal?.addEventListener('click', (event) => {
+  if (event.target === serviceModal) serviceModal.close();
+});
+
+serviceModal?.addEventListener('close', () => {
+  document.body.classList.remove('modal-open');
+  serviceModalTrigger?.focus();
+});
+
+serviceModalCta?.addEventListener('click', () => serviceModal?.close());
